@@ -22,7 +22,7 @@ reg[1:0] state_reg, state_next;
 
 always @(posedge clock, posedge reset)
 begin
-    if(reset) // reset assincrono
+    if(reset) // reset
         begin
         state_reg <= inicial;
         end
@@ -37,23 +37,25 @@ begin
     state_next = state_reg;
     
     registra = 1'b0; //retornar registra pra 0
+	 conta = 1'b0; //retornar conta pra 0
+	 zera = 1'b0; //retornar s_zera pra 0
     case(state_reg)
         inicial: begin
 					 zera = 1'b1;
-                state_next = contador; // inicial vai pro estado contador
+                state_next = registrador; // inicial vai pro estado registrador
 					 end
         contador:
             begin
                conta = 1'b1; // ativa o contador
                 if(fim_contador) // muda de estado quando contagem acaba
-                    state_next = registrador;
+                    state_next = final;
                 else    
-                    state_next = contador; // else go to state zero.
+                    state_next = contador; // fica no contador
             end
 			registrador:
 				begin
 					registra = 1'b1;
-					state_next = final;
+					state_next = contador;
 				end
 			final: 
             state_next = inicial;   

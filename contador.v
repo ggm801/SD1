@@ -1,24 +1,28 @@
 module contador (
 	clock,
 	reset,
+	conta,
 	fim
 );
 
-	input clock, reset;
+	input clock, conta, reset;
 
 	output reg fim;
 
-	reg [3:0] contagem;
+	integer contagem;
 
 	always @ (posedge clock) begin
 		if(reset)
 			contagem <= 0;
-		else begin
-			if (contagem == 4'b1111)
+		else
+			if(conta)
+				contagem <= contagem + 1;
+		
+		if(contagem == 40000) begin
 			fim <= 1;
-			else
-			contagem <= contagem + 1;
+			contagem <= 0;
 		end
+		
 	end
 
 endmodule

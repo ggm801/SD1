@@ -14,27 +14,19 @@ module atribuidor_nota (
 	
 	output reg [3:0] nota;
 	
-	integer nota_integer;
+	reg [3:0] n;
 	
-	integer ideal_integer;
-		always @ (ideal)
-    ideal_integer = ideal;
-	 
-	 integer sensor_integer;
-		always @ (sensor)
-    sensor_integer = sensor;
-	 
-	 always @* begin
-		if(ideal_integer - sensor_integer > 0)
-			nota_integer = 10 - (ideal_integer - sensor_integer);
+	always @* begin
+		if (ideal >= sensor)
+			n = 10 - (ideal - sensor);
 		else
-			nota_integer = 10 + (ideal_integer - sensor_integer);
+			n = 10 - (sensor - ideal);
 	 end
 	 
 	 always @*
     begin
-        case (nota_integer) 
-        1 : nota = 4'd1;
+        case (n) 
+        1 : nota = 4'b0001;
 		  2 : nota = 4'd2;
         3 : nota = 4'd3;
         4 : nota = 4'd4;
@@ -44,7 +36,7 @@ module atribuidor_nota (
         8 : nota = 4'd8;
         9 : nota = 4'd9;
         10: nota = 4'd10;
-		  default: nota = 4'b0000;
+		  default: nota = 4'd11;
 
 		endcase
 	end

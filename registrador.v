@@ -1,12 +1,12 @@
- module registrador(D,clk,reset,enable, Q);
+ module registrador(D,clock,reset,enable, Q);
     input[3:0] D; // Data input
-    input clk,reset,enable;
+    input clock,reset,enable;
     output[3:0] Q; // output Q
     reg[3:0] Q;
-    always @(posedge clk or posedge reset)
+    always @(posedge clock or posedge reset)
     begin
             if(reset)
-                    Q <= 4'b0;
+                    Q <= 4'b0000;
             else if (enable)
                     Q <= D;
     end

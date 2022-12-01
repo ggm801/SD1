@@ -8,25 +8,10 @@ module calculador_media (clock, enable, temperatura, pH, luminosidade, umidade, 
 
 	integer media;
 
-	// conversao para inteiro
-	integer nota_temperatura;
-		always @ (temperatura)
-    nota_temperatura = temperatura;
-
-	integer nota_pH;
-		always @(pH)
-    nota_pH = pH;
-
-	integer nota_luminosidade;
-		always @(luminosidade)
-    nota_luminosidade = luminosidade;
-	 
-	 integer nota_umidade;
-		always @(umidade)
-    nota_umidade = umidade;
-
 	 always @* begin
-		media = (nota_pH + nota_luminosidade + nota_temperatura + nota_umidade);
+		media = (pH + luminosidade + temperatura + umidade);
+		$display("MEDIA %d", media);
+
 	end
 	// divisao nao é sintetizada no Verilog. Portanto, foi feita uma tabela com todos os possiveis multiplos de 3 (que eh de onde vem a media)
 	always @*

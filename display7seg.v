@@ -18,6 +18,8 @@ module display7seg(nota, s_nota);
             4'b0111 : s_nota = 7'b0001111;
             4'b1000 : s_nota = 7'b0000000;
             4'b1001 : s_nota = 7'b0000100;
+				4'b1010 : s_nota = 7'b1000000;
+
             //caso não seja nenhum desses, apaga o display
             default : s_nota = 7'b1111111; 
         endcase
