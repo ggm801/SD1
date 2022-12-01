@@ -1,0 +1,94 @@
+module controlador_estufa (
+	clock,
+	enable,
+	tipo_planta,
+	temperatura,
+	pH,
+	luminosidade,
+	umidade,
+	display_media,
+	display_temperatura,
+	display_pH,
+	display_luminosidade,
+	display_umidade
+);
+	
+	input clock, enable;
+	input [3:0] temperatura;
+	input [3:0] pH, tipo_planta;
+	input [3:0] luminosidade, umidade;
+	
+	output [6:0] display_media, display_temperatura, display_pH, display_luminosidade, display_umidade;
+	
+	wire [3:0] mem_temp;
+	wire [3:0] mem_pH; 
+	wire [3:0] mem_lumi, mem_umi;
+	
+	wire [3:0] nota_temp, nota_pH, nota_lumi, nota_umi, media;
+	
+		
+	atribuidor_nota AN (
+	
+		.clock (clock),
+		.enable (enable),
+		.temperatura (temperatura),
+		.umidade (umidade),
+		.pH (pH),
+		.luminosidade (luminosidade),	
+		.ideal_temperatura(mem_temp),
+		.ideal_luminosidade(mem_lumi),
+		.ideal_umidade(mem_umi),
+		.ideal_pH(mem_pH),
+		.nota_temperatura (nota_temp),
+		.nota_umidade (nota_umi),
+		.nota_luminosidade (nota_lumi),
+		.nota_pH (nota_pH)
+		);
+		
+	calculador_media CM(
+		.clock (clock),
+		.enable (enable),
+		.temperatura (nota_temp),
+		.umidade (nota_umi),
+		.luminosidade (nota_lumi),
+		.pH (nota_pH),
+		
+		.nota (media)
+	);
+	
+	memoria M(
+		.clock (clock),
+		.enable (enable),
+		.tipo_planta (tipo_planta),
+		.temperatura (mem_temp),
+		.luminosidade (mem_lumi),
+		.umidade (mem_umi),
+		.pH (mem_pH)
+	);
+	
+  display7seg MED(
+		.nota (media),
+		.s_nota (display_media)
+  );
+  
+  display7seg TEMP(
+		.nota (nota_temp),
+		.s_nota (display_temperatura)
+  );
+  
+  display7seg PH(
+		.nota (nota_pH),
+		.s_nota (display_pH)
+  );
+  
+  display7seg LUMI(
+		.nota (nota_lumi),
+		.s_nota (display_luminosidade)
+  );
+  
+  display7seg UMI(
+		.nota (nota_umi),
+		.s_nota (display_umidade)
+  );
+  
+endmodule
